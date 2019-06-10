@@ -90,8 +90,7 @@
         expenseItem.moment = new Date();
 
         totalExpense += expense;
-        const someText = `Total: ${totalExpense}`;
-        headingEl.textContent = someText;
+        updateTotal();
         allExpenses.push(expenseItem);
 
         renderlist(allExpenses);
@@ -109,11 +108,18 @@
         });
       }
 
-      function deleteItem(dateValue) {
+      function updateTotal() {
+        let someText = `Total: ${totalExpense}`;
+        headingEl.textContent = someText;
+      }
+
+      function deleteItem(dateValue, amount) {
         const newArr = allExpenses.filter(
           expense => expense.moment.valueOf() !== dateValue
         );
         renderlist(newArr);
+        totalExpense -= amount;
+        updateTotal();
       }
 
       function renderlist(arrOfList) {
@@ -138,7 +144,7 @@
                             <span class="px-5">
                                     ${amount}
                             </span>
-                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteItem(${moment.valueOf()})">
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteItem(${moment.valueOf()}, ${amount})">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
