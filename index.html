@@ -62,20 +62,27 @@
       const textAmount = inputElement.value;
       const textDesc = inputDescEl.value;
       const expense = parseInt(textAmount, 10);
-      expenseItem.desc = textDesc;
-      expenseItem.amount = expense;
-      expenseItem.moment = new Date();
+      if (textDesc !== "" && !isNaN(expense) && expense > 0) {
+        expenseItem.desc = textDesc;
+        expenseItem.amount = expense;
+        expenseItem.moment = new Date();
 
-      totalExpense += expense;
-      updateTotal();
-      allExpenses.push(expenseItem);
+        totalExpense += expense;
+        updateTotal();
+        allExpenses.push(expenseItem);
 
-      renderlist(allExpenses);
-      inputElement.value = "";
-      inputDescEl.value = "";
+        renderlist(allExpenses);
+        inputElement.value = "";
+        inputDescEl.value = "";
+      }
     }
     const element = document.querySelector("#btnAddExpense");
     element.addEventListener("click", addExpenseToTotal, false);
+    document.addEventListener("keypress", function (event) {
+      if (event.keyCode === 13 || event.which === 13) {
+        addExpenseToTotal();
+      }
+    });
 
     function getDateString(momento) {
       return momento.toLocaleDateString("en-US", {
